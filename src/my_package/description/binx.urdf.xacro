@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<robot xmins:xacro="http://www.ros.ord/wiki/xacro" name="binx">
+
+    <link name = "base_link"></link>
+
+</robot>
