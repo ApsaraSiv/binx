@@ -28,8 +28,6 @@ def generate_launch_description():
         output='screen',
         parameters=[params]
     )
-
-
     # Launch!
     return LaunchDescription([
         DeclareLaunchArgument(
