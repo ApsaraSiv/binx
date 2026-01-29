@@ -1,3 +1,6 @@
+# ------------------------------------------------------------------------------
+# This file launches the gazebo simulation along with all the ros nodes required
+
 import os
 
 from ament_index_python.packages import get_package_share_directory
@@ -55,6 +58,9 @@ def generate_launch_description():
     )
 
 
+
+
+
     # gazebo node
     spawnModelNodeGazebo = Node(
         package = 'ros_gz_sim',
@@ -65,6 +71,7 @@ def generate_launch_description():
         ],
         output = 'screen'
     )
+
 
 
 
@@ -96,6 +103,7 @@ def generate_launch_description():
     launchDescriptionObject.add_action(spawnModelNodeGazebo)
     launchDescriptionObject.add_action(nodeRobotStatePublisher)
     launchDescriptionObject.add_action(start_gazebo_ros_bridge_cmd)
+
 
     return launchDescriptionObject
 

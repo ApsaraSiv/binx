@@ -2,5 +2,6 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="binx">
 
     <xacro:include filename="binx_core.xacro" />
+    <xacro:include filename="lidar.xacro" />
 
 </robot>

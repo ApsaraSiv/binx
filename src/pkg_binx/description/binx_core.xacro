@@ -4,22 +4,6 @@
 
     <!-- *remember to cite and ref aleksander haber btw* -->
 
-
-    <!-- ########################## -->
-    <!-- Including additional files -->
-    <!-- ########################## -->
-
-    <!-- <xacro:include filename = "${find pkg_binx}/description/robot.gazebo" /> -->
-
-
-
-
-    <!-- ######################## -->
-    <!-- Defining robot constants -->
-    <!-- ######################## -->
-
-    <xacro:property name = "pi_const" value = "3.14159265" />
-
     <!-- colors -->
     <material name="white">
         <color rgba="1 1 1 1" />
@@ -37,6 +21,19 @@
         <color rgba="0 0 0 1"/>
     </material>
 
+
+
+
+
+
+    <!-- ######################## -->
+    <!-- Defining robot constants -->
+    <!-- ######################## -->
+
+    <xacro:property name = "pi_const" value = "3.14159265" />
+
+
+
     <!-- chassis dimensions -->
     <xacro:property name = "l" value = "1" />
     <xacro:property name = "h" value = "0.3" />
@@ -51,6 +48,10 @@
     <xacro:property name = "s2" value = "${2*r}" />
     <xacro:property name = "s3" value = "${2*r}" />
     <xacro:property name = "s4" value = "${w/2 + d/2}" />
+
+
+
+
 
 
 
@@ -103,12 +104,19 @@
 
 
 
+
+
+
+
+
     <!-- ####################### -->
     <!-- Defining links & joints -->
     <!-- ####################### -->
 
-    <!-- ficitous link -->
-    <link name = "base_footprint"> </link>
+    <!-- fictitious link -->
+    <link name = "base_footprint"> 
+        <xacro:inertia_body />
+    </link>
     <joint name = "body_link_joint" type = "fixed">
         <parent link = "base_footprint" />
         <child link = "body_link" />
@@ -116,7 +124,6 @@
 
     <!-- body link -->
     <!-- *figure out if you need to change the origin's x value to -0.1 or sum* -->
-    <!-- *also idk if you need to add the color to the collision asw prolly not* -->
     <link name = "body_link">
         <visual>
             <origin rpy = "0 0 0" xyz = "0 0 ${s1}" />
@@ -259,6 +266,15 @@
 
         <xacro:inertia_wheel />
     </link>
+
+
+
+
+    <!-- ########################## -->
+    <!-- Including additional files -->
+    <!-- ########################## -->
+
+    <xacro:include filename = "$(find pkg_binx)/description/robot.gazebo" />
 
 </robot>
 
