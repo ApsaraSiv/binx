@@ -18,18 +18,11 @@ import xacro
 def generate_launch_description():
 
     robotXacroName = 'binx'
-
     namePackage = 'pkg_binx'
-
     modelFileRelativePath = 'description/binx.urdf.xacro'
 
-
-
-
     pathModelFile = os.path.join(get_package_share_directory(namePackage),modelFileRelativePath)
-
     robotDescription = xacro.process_file(pathModelFile).toxml()
-
     gazebo_rosPackageLaunch = PythonLaunchDescriptionSource(os.path.join(get_package_share_directory('ros_gz_sim'),'launch','gz_sim.launch.py'))
 
 
@@ -58,9 +51,6 @@ def generate_launch_description():
     )
 
 
-
-
-
     # gazebo node
     spawnModelNodeGazebo = Node(
         package = 'ros_gz_sim',
@@ -73,8 +63,6 @@ def generate_launch_description():
     )
 
 
-
-
     # main bridge
     # -----------
     bridge_params = os.path.join(
@@ -82,7 +70,6 @@ def generate_launch_description():
         'parameters',
         'bridge_parameters.yaml'
     )
-
 
     start_gazebo_ros_bridge_cmd = Node(
         package = 'ros_gz_bridge',
@@ -95,6 +82,14 @@ def generate_launch_description():
         output = 'screen',
     )
 
+    # Dedicated image bridge for better performance
+    start_gazebo_ros_image_bridge_cmd = Node(
+        package='ros_gz_image',
+        executable='image_bridge',
+        arguments=['/camera/image'],
+        output='screen',
+    )
+
     #launch descwiption
     launchDescriptionObject = LaunchDescription()
 
@@ -103,6 +98,7 @@ def generate_launch_description():
     launchDescriptionObject.add_action(spawnModelNodeGazebo)
     launchDescriptionObject.add_action(nodeRobotStatePublisher)
     launchDescriptionObject.add_action(start_gazebo_ros_bridge_cmd)
+    launchDescriptionObject.add_action(start_gazebo_ros_image_bridge_cmd)
 
 
     return launchDescriptionObject
