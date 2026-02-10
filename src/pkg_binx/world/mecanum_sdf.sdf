@@ -1,0 +1,440 @@
+<sdf version='1.10'>
+  <world name='mecanum_sdf'>
+  <!-- remove this file later -->
+    <physics name='1ms' type='ode'>
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>1000</real_time_update_rate>
+    </physics>
+    <plugin name='gz::sim::systems::Physics' filename='gz-sim-physics-system'/>
+    <plugin name='gz::sim::systems::UserCommands' filename='gz-sim-user-commands-system'/>
+    <plugin name='gz::sim::systems::SceneBroadcaster' filename='gz-sim-scene-broadcaster-system'/>
+    <plugin name='gz::sim::systems::Contact' filename='gz-sim-contact-system'/>
+    <gravity>0 0 -9.8000000000000007</gravity>
+    <magnetic_field>5.5644999999999998e-06 2.2875799999999999e-05 -4.2388400000000002e-05</magnetic_field>
+    <atmosphere type='adiabatic'/>
+    <scene>
+      <ambient>0.400000006 0.400000006 0.400000006 1</ambient>
+      <background>0.699999988 0.699999988 0.699999988 1</background>
+      <shadows>true</shadows>
+    </scene>
+    <model name='ground_plane'>
+      <static>true</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <surface>
+            <friction>
+              <ode/>
+            </friction>
+            <bounce/>
+            <contact/>
+          </surface>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.800000012 0.800000012 0.800000012 1</ambient>
+            <diffuse>0.800000012 0.800000012 0.800000012 1</diffuse>
+            <specular>0.800000012 0.800000012 0.800000012 1</specular>
+          </material>
+        </visual>
+        <pose>0 0 0 0 0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 0 0</pose>
+          <mass>1</mass>
+          <inertia>
+            <ixx>1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1</iyy>
+            <iyz>0</iyz>
+            <izz>1</izz>
+          </inertia>
+        </inertial>
+        <enable_wind>false</enable_wind>
+      </link>
+      <pose>0 0 0 0 0 0</pose>
+      <self_collide>false</self_collide>
+    </model>
+    <model name='binx'>
+      <link name='base_footprint'>
+        <inertial>
+          <pose>0 0 0.29999999999999988 0 0 0</pose>
+          <mass>1219.5</mass>
+          <inertia>
+            <ixx>66.310312500000066</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>110.77125000000009</iyy>
+            <iyz>0</iyz>
+            <izz>158.7890625</izz>
+          </inertia>
+        </inertial>
+        <collision name='base_footprint_fixed_joint_lump__body_link_collision'>
+          <pose>0 0 0.29999999999999999 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>1 0.75 0.29999999999999999</size>
+            </box>
+          </geometry>
+          <surface>
+            <friction>
+              <ode/>
+            </friction>
+            <bounce/>
+            <contact/>
+          </surface>
+        </collision>
+        <visual name='base_footprint_fixed_joint_lump__body_link_visual'>
+          <pose>0 0 0.29999999999999999 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>1 0.75 0.29999999999999999</size>
+            </box>
+          </geometry>
+          <material>
+            <diffuse>0.187500015 0.222499996 0.30250001 1</diffuse>
+            <ambient>0.187500015 0.222499996 0.30250001 1</ambient>
+          </material>
+        </visual>
+        <pose>0 0 0 0 0 0</pose>
+        <enable_wind>false</enable_wind>
+      </link>
+      <joint name='wheel1_joint' type='revolute'>
+        <pose>0 0 0 0 0 0</pose>
+        <parent>base_footprint</parent>
+        <child>wheel1_link</child>
+        <axis>
+          <xyz>0 1 0</xyz>
+          <limit>
+            <lower>-inf</lower>
+            <upper>inf</upper>
+            <effort>50000</effort>
+            <velocity>10</velocity>
+            <stiffness>100000000</stiffness>
+            <dissipation>1</dissipation>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+            <damping>1</damping>
+            <friction>1</friction>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='wheel1_link'>
+        <pose>-0.29999999999999999 -0.42499999999999999 0.14999999999999999 -5.9359741576930959e-40 8.7504734570883811e-20 -2.5971292154427999e-59</pose>
+        <inertial>
+          <pose>0 0 0 1.5707949999999999 0 0</pose>
+          <mass>19.155861183374999</mass>
+          <inertia>
+            <ixx>0.12371493680929679</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.12371493680929679</iyy>
+            <iyz>0</iyz>
+            <izz>0.21550343831296881</izz>
+          </inertia>
+        </inertial>
+        <collision name='wheel1_link_fixed_joint_lump__wheel1_collision_collision'>
+          <pose>0 0 0 1.5709499999999998 0 0</pose>
+          <geometry>
+            <cylinder>
+              <length>0.10000000000000001</length>
+              <radius>0.14999999999999999</radius>
+            </cylinder>
+          </geometry>
+          <surface>
+            <friction>
+              <ode/>
+            </friction>
+            <bounce/>
+            <contact/>
+          </surface>
+        </collision>
+        <visual name='wheel1_link_visual'>
+          <pose>0 0 0 1.5707949999999999 0 0</pose>
+          <geometry>
+            <cylinder>
+              <length>0.10000000000000001</length>
+              <radius>0.14999999999999999</radius>
+            </cylinder>
+          </geometry>
+          <material>
+            <diffuse>0.296250015 0.248750001 0.275000006 1</diffuse>
+            <ambient>0.296250015 0.248750001 0.275000006 1</ambient>
+          </material>
+        </visual>
+        <enable_wind>false</enable_wind>
+      </link>
+      <joint name='wheel2_joint' type='revolute'>
+        <pose>0 0 0 0 0 0</pose>
+        <parent>base_footprint</parent>
+        <child>wheel2_link</child>
+        <axis>
+          <xyz>0 1 0</xyz>
+          <limit>
+            <lower>-inf</lower>
+            <upper>inf</upper>
+            <effort>50000</effort>
+            <velocity>10</velocity>
+            <stiffness>100000000</stiffness>
+            <dissipation>1</dissipation>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+            <damping>1</damping>
+            <friction>1</friction>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='wheel2_link'>
+        <pose>-0.29999999999999999 0.42499999999999999 0.14999999999999999 -3.5763370998505024e-40 5.2720315207713641e-20 -9.4272809596579465e-60</pose>
+        <inertial>
+          <pose>0 0 0 1.5707949999999999 0 0</pose>
+          <mass>19.155861183374999</mass>
+          <inertia>
+            <ixx>0.12371493680929679</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.12371493680929679</iyy>
+            <iyz>0</iyz>
+            <izz>0.21550343831296881</izz>
+          </inertia>
+        </inertial>
+        <collision name='wheel2_link_fixed_joint_lump__wheel2_collision_collision'>
+          <pose>0 0 0 1.5709499999999998 0 0</pose>
+          <geometry>
+            <cylinder>
+              <length>0.10000000000000001</length>
+              <radius>0.14999999999999999</radius>
+            </cylinder>
+          </geometry>
+          <surface>
+            <friction>
+              <ode/>
+            </friction>
+            <bounce/>
+            <contact/>
+          </surface>
+        </collision>
+        <visual name='wheel2_link_visual'>
+          <pose>0 0 0 1.5707949999999999 0 0</pose>
+          <geometry>
+            <cylinder>
+              <length>0.10000000000000001</length>
+              <radius>0.14999999999999999</radius>
+            </cylinder>
+          </geometry>
+          <material>
+            <diffuse>0.296250015 0.248750001 0.275000006 1</diffuse>
+            <ambient>0.296250015 0.248750001 0.275000006 1</ambient>
+          </material>
+        </visual>
+        <enable_wind>false</enable_wind>
+      </link>
+      <joint name='wheel3_joint' type='revolute'>
+        <pose>0 0 0 0 0 0</pose>
+        <parent>base_footprint</parent>
+        <child>wheel3_link</child>
+        <axis>
+          <xyz>0 1 0</xyz>
+          <limit>
+            <lower>-inf</lower>
+            <upper>inf</upper>
+            <effort>50000</effort>
+            <velocity>10</velocity>
+            <stiffness>100000000</stiffness>
+            <dissipation>1</dissipation>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+            <damping>1</damping>
+            <friction>1</friction>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='wheel3_link'>
+        <pose>0.29999999999999999 -0.42499999999999999 0.14999999999999999 3.107546977853061e-40 -4.5809679462833648e-20 -7.1177865485573071e-60</pose>
+        <inertial>
+          <pose>0 0 0 1.5707949999999999 0 0</pose>
+          <mass>19.155861183374999</mass>
+          <inertia>
+            <ixx>0.12371493680929679</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.12371493680929679</iyy>
+            <iyz>0</iyz>
+            <izz>0.21550343831296881</izz>
+          </inertia>
+        </inertial>
+        <collision name='wheel3_link_fixed_joint_lump__wheel3_collision_collision'>
+          <pose>0 0 0 1.5709499999999998 0 0</pose>
+          <geometry>
+            <cylinder>
+              <length>0.10000000000000001</length>
+              <radius>0.14999999999999999</radius>
+            </cylinder>
+          </geometry>
+          <surface>
+            <friction>
+              <ode/>
+            </friction>
+            <bounce/>
+            <contact/>
+          </surface>
+        </collision>
+        <visual name='wheel3_link_visual'>
+          <pose>0 0 0 1.5707949999999999 0 0</pose>
+          <geometry>
+            <cylinder>
+              <length>0.10000000000000001</length>
+              <radius>0.14999999999999999</radius>
+            </cylinder>
+          </geometry>
+          <material>
+            <diffuse>0.296250015 0.248750001 0.275000006 1</diffuse>
+            <ambient>0.296250015 0.248750001 0.275000006 1</ambient>
+          </material>
+        </visual>
+        <enable_wind>false</enable_wind>
+      </link>
+      <joint name='wheel4_joint' type='revolute'>
+        <pose>0 0 0 0 0 0</pose>
+        <parent>base_footprint</parent>
+        <child>wheel4_link</child>
+        <axis>
+          <xyz>0 1 0</xyz>
+          <limit>
+            <lower>-inf</lower>
+            <upper>inf</upper>
+            <effort>50000</effort>
+            <velocity>10</velocity>
+            <stiffness>100000000</stiffness>
+            <dissipation>1</dissipation>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+            <damping>1</damping>
+            <friction>1</friction>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='wheel4_link'>
+        <pose>0.29999999999999999 0.42499999999999999 0.14999999999999999 -1.9063630006203417e-40 2.8102512567181822e-20 3.009265538105056e-36</pose>
+        <inertial>
+          <pose>0 0 0 1.5707949999999999 0 0</pose>
+          <mass>19.155861183374999</mass>
+          <inertia>
+            <ixx>0.12371493680929679</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.12371493680929679</iyy>
+            <iyz>0</iyz>
+            <izz>0.21550343831296881</izz>
+          </inertia>
+        </inertial>
+        <collision name='wheel4_link_fixed_joint_lump__wheel4_collision_collision'>
+          <pose>0 0 0 1.5709499999999998 0 0</pose>
+          <geometry>
+            <cylinder>
+              <length>0.10000000000000001</length>
+              <radius>0.14999999999999999</radius>
+            </cylinder>
+          </geometry>
+          <surface>
+            <friction>
+              <ode/>
+            </friction>
+            <bounce/>
+            <contact/>
+          </surface>
+        </collision>
+        <visual name='wheel4_link_visual'>
+          <pose>0 0 0 1.5707949999999999 0 0</pose>
+          <geometry>
+            <cylinder>
+              <length>0.10000000000000001</length>
+              <radius>0.14999999999999999</radius>
+            </cylinder>
+          </geometry>
+          <material>
+            <diffuse>0.296250015 0.248750001 0.275000006 1</diffuse>
+            <ambient>0.296250015 0.248750001 0.275000006 1</ambient>
+          </material>
+        </visual>
+        <enable_wind>false</enable_wind>
+      </link>
+      <plugin name='gz::sim::systems::MecanumDrive' filename='libgz-sim-mecanum-drive-system.so'>
+        <update_rate>20</update_rate>
+        <front_left_joint>wheel4_joint</front_left_joint>
+        <front_right_joint>wheel3_joint</front_right_joint>
+        <back_left_joint>wheel2_joint</back_left_joint>
+        <back_right_joint>wheel1_joint</back_right_joint>
+        <wheelbase>0.6</wheelbase>
+        <wheel_separation>0.85</wheel_separation>
+        <wheel_radius>0.15</wheel_radius>
+        <max_linear_acceleration>10</max_linear_acceleration>
+        <max_angular_acceleration>5</max_angular_acceleration>
+        <topic>/cmd_vel</topic>
+        <tf_topic>/tf</tf_topic>
+        <odom_topic>/odom</odom_topic>
+        <frame_id>odom</frame_id>
+        <child_frame_id>base_footprint</child_frame_id>
+        <odom_publisher_frequency>30</odom_publisher_frequency>
+      </plugin>
+      <plugin name='gz::sim::systems::JointStatePublisher' filename='gz-sim-joint-state-publisher-system'>
+        <topic>joint_states</topic>
+        <joint_name>wheel1_joint</joint_name>
+        <joint_name>wheel2_joint</joint_name>
+        <joint_name>wheel3_joint</joint_name>
+        <joint_name>wheel4_joint</joint_name>
+      </plugin>
+      <plugin name='gz::sim::systems::Sensors' filename='gz-sim-sensors-system'>
+        <render_engine>ogre2</render_engine>
+      </plugin>
+      <frame name='body_link_joint' attached_to='base_footprint'>
+        <pose>0 0 0 0 0 0</pose>
+      </frame>
+      <frame name='body_link' attached_to='body_link_joint'>
+        <pose>0 0 0 0 0 0</pose>
+      </frame>
+      <pose>-6.7525999265392873e-21 -4.0470866415996173e-15 7.1962208543790746e-06 5.2691997474724252e-10 -3.890830607923979e-19 -1.3567207023715524e-20</pose>
+      <static>false</static>
+      <self_collide>false</self_collide>
+    </model>
+    <light name='sun' type='directional'>
+      <pose>0 0 10 0 0 0</pose>
+      <cast_shadows>true</cast_shadows>
+      <intensity>1</intensity>
+      <direction>-0.5 0.10000000000000001 -0.90000000000000002</direction>
+      <diffuse>0.800000012 0.800000012 0.800000012 1</diffuse>
+      <specular>0.200000003 0.200000003 0.200000003 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <linear>0.01</linear>
+        <constant>0.90000000000000002</constant>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <spot>
+        <inner_angle>0</inner_angle>
+        <outer_angle>0</outer_angle>
+        <falloff>0</falloff>
+      </spot>
+    </light>
+  </world>
+</sdf>

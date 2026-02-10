@@ -14,7 +14,7 @@ install(DIRECTORY
   description
   launch
   parameters
-  worlds
+  world
   DESTINATION share/${PROJECT_NAME}
 )
 

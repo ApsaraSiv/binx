@@ -18,15 +18,14 @@
   direction: GZ_TO_ROS
 
 
-# odometry by DiffDrive plugin
+# odometry by mecanum plugin
 - ros_topic_name: "odom"
   gz_topic_name: "odom"
   ros_type_name: "nav_msgs/msg/Odometry"
   gz_type_name: "gz.msgs.Odometry"
   direction: GZ_TO_ROS
 
-
-# tf by DiffDrive plugin
+# tf by mecanum plugin
 - ros_topic_name: "tf"
   gz_topic_name: "tf"
   ros_type_name: "tf2_msgs/TFMessage"
@@ -34,7 +33,7 @@
   direction: GZ_TO_ROS
 
 
-# command velocity by DiffDrive plugin
+# command velocity by mecanum plugin
 - ros_topic_name: "cmd_vel"
   gz_topic_name: "cmd_vel"
   ros_type_name: "geometry_msgs/msg/Twist"
@@ -43,14 +42,21 @@
 
 
 
+
+
 # laserScan message from lidar
 - ros_topic_name: "scan"
-  gz_topic_name: "lidar_scan"
+  gz_topic_name: "scan"
   ros_type_name: "sensor_msgs/msg/LaserScan"
   gz_type_name: "gz.msgs.LaserScan"
   direction: GZ_TO_ROS
   lazy: false
 
 
-
+# camera
+- ros_topic_name: "camera/camera_info"
+  gz_topic_name: "camera/camera_info"
+  ros_type_name: "sensor_msgs/msg/CameraInfo"
+  gz_type_name: "gz.msgs.CameraInfo"
+  direction: GZ_TO_ROS
 

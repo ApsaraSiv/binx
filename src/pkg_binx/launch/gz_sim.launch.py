@@ -15,6 +15,21 @@ import xacro
 
 
 
+# *r e m o v e   l a t e r*
+# ------------------------------------------------------------------------------------------------------------------
+# !!!!!!!!!! IMPORTANT!!!!!!!!!!!
+# paste this command in the terminal that you use to launch gazebo:
+# export GZ_SIM_RESOURCE_PATH=$GZ_SIM_RESOURCE_PATH:/home/cloudy/Documents/Fluffy\ project/binx/src/pkg_binx/models
+# (replace the path with your path)
+# it's a bit scuffed but it's what works for now ToT
+# ------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
 def generate_launch_description():
 
     robotXacroName = 'binx'
@@ -24,9 +39,16 @@ def generate_launch_description():
     modelFileRelativePath = 'description/binx.urdf.xacro'
 
 
+    # HARDCODED PATH
+    worldFileRelativePath = 'src/pkg_binx/world/Aworld.sdf'
+
+
 
 
     pathModelFile = os.path.join(get_package_share_directory(namePackage),modelFileRelativePath)
+
+    pathWorldFile = os.path.join(get_package_share_directory(namePackage),worldFileRelativePath)
+    print(pathWorldFile)
 
     robotDescription = xacro.process_file(pathModelFile).toxml()
 
@@ -40,8 +62,8 @@ def generate_launch_description():
     gazeboLaunch = IncludeLaunchDescription(
         gazebo_rosPackageLaunch, 
         launch_arguments = {
-            'gz_args': '-r v4 empty.sdf', 
-            #'on_exit_shutdown': 'true'
+            'gz_args': f'-r --verbose 4 {worldFileRelativePath}', 
+            'on_exit_shutdown': 'true'
         }.items()
     )
 
@@ -67,7 +89,7 @@ def generate_launch_description():
         executable = 'create',
         arguments = [
                 '-name', robotXacroName,
-                '-topic', 'robot_description'
+                '-topic', 'robot_description',
         ],
         output = 'screen'
     )
