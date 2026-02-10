@@ -18,14 +18,15 @@
   direction: GZ_TO_ROS
 
 
-# odometry by mecanum plugin
+# odometry by DiffDrive plugin
 - ros_topic_name: "odom"
   gz_topic_name: "odom"
   ros_type_name: "nav_msgs/msg/Odometry"
   gz_type_name: "gz.msgs.Odometry"
   direction: GZ_TO_ROS
 
-# tf by mecanum plugin
+
+# tf by DiffDrive plugin
 - ros_topic_name: "tf"
   gz_topic_name: "tf"
   ros_type_name: "tf2_msgs/TFMessage"
@@ -33,14 +34,12 @@
   direction: GZ_TO_ROS
 
 
-# command velocity by mecanum plugin
+# command velocity by DiffDrive plugin
 - ros_topic_name: "cmd_vel"
   gz_topic_name: "cmd_vel"
   ros_type_name: "geometry_msgs/msg/Twist"
   gz_type_name: "gz.msgs.Twist"
   direction: ROS_TO_GZ
-
-
 
 
 
@@ -59,4 +58,3 @@
   ros_type_name: "sensor_msgs/msg/CameraInfo"
   gz_type_name: "gz.msgs.CameraInfo"
   direction: GZ_TO_ROS
-

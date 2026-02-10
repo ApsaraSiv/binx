@@ -114,7 +114,6 @@
 
     <!-- fictitious link -->
     <link name = "base_footprint"> 
-        <xacro:inertia_body />
     </link>
     <joint name = "body_link_joint" type = "fixed">
         <parent link = "base_footprint" />

@@ -65,7 +65,6 @@
     </gazebo>
 
 
-
     <!-- lidar sensor reference -->
     <gazebo reference = "lidar_link">
         <sensor name = "lidar_sensor" type = "gpu_lidar">
