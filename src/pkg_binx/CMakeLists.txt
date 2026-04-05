@@ -7,6 +7,13 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
+find_package(rclpy REQUIRED)
+find_package(std_msgs REQUIRED)
+
+install(PROGRAMS
+  scripts/lineFollower.py
+  DESTINATION lib/${PROJECT_NAME}
+)
 
 # install folders
 install(DIRECTORY
@@ -15,8 +22,12 @@ install(DIRECTORY
   launch
   parameters
   world
+  cvTest
+  scripts
   DESTINATION share/${PROJECT_NAME}
 )
+
+
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)

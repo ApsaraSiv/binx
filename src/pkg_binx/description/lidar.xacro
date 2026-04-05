@@ -11,16 +11,15 @@
         <visual>
             <origin xyz = "0 0 0" rpy = "0 0 0"/>
             <geometry>
-                <cylinder radius = "0.03" length = "0.1"/>
+                <cylinder radius = "${d}" length = "${d}"/>
             </geometry>
-            <material name = "black">
-                <color rgba = "0 0 0 1"/>
-            </material>
+            <material name = "gray" />
+
         </visual>
         <collision>
             <origin xyz = "0 0 0" rpy = "0 0 0"/>
             <geometry>
-                <cylinder radius = "0.03" length = "0.1"/>
+                <cylinder radius = "${d}" length = "${d}"/>
             </geometry>
         </collision>
     </link>

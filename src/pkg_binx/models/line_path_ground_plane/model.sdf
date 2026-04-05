@@ -33,7 +33,7 @@
           <specular>0 0 0 1</specular>
           <pbr>
             <metal>
-              <albedo_map>model://line_path_ground_plane/materials/textures/fork_path2.png</albedo_map>
+              <albedo_map>model://line_path_ground_plane/materials/textures/path_1.png</albedo_map>
             </metal>
           </pbr>
         </material>

@@ -102,9 +102,33 @@
             <always_on>1</always_on>
             <visualize>true</visualize>
         </sensor>   
-
     </gazebo>
 
+
+    <gazebo reference="camera_link">
+        <material name = "gray" />
+
+        <sensor name="camera" type="camera">
+            <pose> 0 0 0 0 0 0 </pose>
+            <visualize>true</visualize>
+            <update_rate>20</update_rate>
+            <topic>camera/image</topic>
+            <gz_frame_id>camera_link_optical</gz_frame_id>
+            <camera>
+                <horizontal_fov>1.3962634</horizontal_fov>
+                <image>
+                    <format>R8G8B8</format>
+                    <width>640</width>
+                    <height>480</height>
+                </image>
+                <clip>
+                    <near>0.1</near>
+                    <far>15</far>
+                </clip>
+            </camera>
+        </sensor>
+    </gazebo>
+    
 
 
 </robot>

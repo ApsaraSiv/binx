@@ -38,7 +38,8 @@ def generate_launch_description():
 
 
     # HARDCODED PATH
-    worldFileRelativePath = 'src/pkg_binx/world/Aworld.sdf'
+    worldFileRelativePath = 'src/pkg_binx/world/line_path_world.sdf'
+    #worldFileRelativePath = 'src/pkg_binx/world/Aworld.sdf'
 
 
 

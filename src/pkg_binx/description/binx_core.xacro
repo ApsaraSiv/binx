@@ -9,7 +9,7 @@
         <color rgba="1 1 1 1" />
     </material>
 
-    <material name="blue">
+    <material name="blue"> 
         <color rgba="0.150 0.178 0.242 1"/>
     </material>
 
@@ -20,6 +20,11 @@
     <material name="black">
         <color rgba="0 0 0 1"/>
     </material>
+
+    <material name = "gray">
+        <color rgba = "0.05 0.05 0.05 1"/>
+    </material>
+
 
 
 
@@ -32,18 +37,19 @@
 
     <xacro:property name = "pi_const" value = "3.14159265" />
 
-
+    <!-- modifier -->
+    <xacro:property name = "m" value = "1" />
 
     <!-- chassis dimensions -->
-    <xacro:property name = "l" value = "1" />
-    <xacro:property name = "h" value = "0.3" />
-    <xacro:property name = "w" value = "0.75" />
+    <xacro:property name = "l" value = "${m*1}" />
+    <xacro:property name = "h" value = "${m*0.3}" />
+    <xacro:property name = "w" value = "${m*0.75}" />
 
     <!-- wheel radius and diameter -->
-    <xacro:property name = "r" value = "0.15" />
-    <xacro:property name = "d" value = "0.1" />
+    <xacro:property name = "r" value = "${m*0.15}" />
+    <xacro:property name = "d" value = "${m*0.1}" />
 
-    <!-- other dimensions (look at aleks' vid for the full picture)-->
+    <!-- other dimensions (look at aleks's vid for the full picture)-->
     <xacro:property name = "s1" value = "${h/2 + r}" />
     <xacro:property name = "s2" value = "${2*r}" />
     <xacro:property name = "s3" value = "${2*r}" />
