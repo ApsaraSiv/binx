@@ -69,11 +69,11 @@ class LineFollower(Node):
         kp = 0.01
 
         if error is not None:
-            twist.linear.x = 1.5
+            twist.linear.x = 0.5
             twist.angular.z = -kp*error
         else:
             twist.linear.x = 0.0
-            twist.angular.z = 3.0
+            twist.angular.z = 3.5
 
         self.publisher.publish(twist)
 

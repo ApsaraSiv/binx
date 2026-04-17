@@ -24,6 +24,7 @@ install(DIRECTORY
   world
   cvTest
   scripts
+  models
   DESTINATION share/${PROJECT_NAME}
 )
 
