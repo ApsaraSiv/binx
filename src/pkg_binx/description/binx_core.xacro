@@ -2,10 +2,6 @@
 
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" xmlns:gz="http://gazebosim.org/schema">
 
-  <!-- STEP 5 - Gazebo plugin -->
-  <xacro:include filename = "$(find pkg_binx)/description/robot.gazebo" />
-
-
     <!-- colors -->
     <material name="white">
         <color rgba="1 1 1 1" />
@@ -57,6 +53,8 @@
 <!-- _______________________________________________________________________________________________ -->
 <!-- _______________________________________________________________________________________________ -->
 
+  <!-- STEP 5 - Gazebo plugin -->
+  <xacro:include filename = "$(find pkg_binx)/description/robot.gazebo" />
 
   <!-- STEP 1 - Robot footprint -->
   <link name="base_footprint"></link>

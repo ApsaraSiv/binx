@@ -9,7 +9,7 @@ from launch.substitutions import LaunchConfiguration
 from launch.actions import DeclareLaunchArgument
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-
+from launch.actions import SetEnvironmentVariable
 from launch_ros.actions import Node
 import xacro
 
@@ -38,11 +38,10 @@ def generate_launch_description():
 
 
     # HARDCODED PATH
-    worldFileRelativePath = 'src/pkg_binx/world/line_path_world.sdf'
+    worldFileRelativePath = 'src/pkg_binx/world/slam_test_world.sdf'
     #worldFileRelativePath = 'src/pkg_binx/world/Aworld.sdf'
 
-
-
+    modelsPath = os.path.join(get_package_share_directory(namePackage),'models')
 
     pathModelFile = os.path.join(get_package_share_directory(namePackage),modelFileRelativePath)
 
@@ -119,9 +118,8 @@ def generate_launch_description():
 
     #launch descwiption
     launchDescriptionObject = LaunchDescription()
-
+    launchDescriptionObject.add_action(SetEnvironmentVariable(name='GZ_SIM_RESOURCE_PATH', value=modelsPath + ':' + os.environ.get('GZ_SIM_RESOURCE_PATH', '')))
     launchDescriptionObject.add_action(gazeboLaunch)
-
     launchDescriptionObject.add_action(spawnModelNodeGazebo)
     launchDescriptionObject.add_action(nodeRobotStatePublisher)
     launchDescriptionObject.add_action(start_gazebo_ros_bridge_cmd)

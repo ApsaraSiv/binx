@@ -5,13 +5,21 @@
 <!-- Additional file -->
 <!-- ############### -->
 
+<!-- *btw the lidar doesn't work yet* -->
+
+
+    <!-- friction parameters -->
+
+
+
+
+
 
     <!-- Gazebo-ros plugins -->
 
     <gazebo>
 
         <plugin filename = "gz-sim-mecanum-drive-system" name = "gz::sim::systems::MecanumDrive">
-
 
             <update_rate>20</update_rate>
 
@@ -20,21 +28,22 @@
             <back_left_joint>rear_left_wheel_joint</back_left_joint>
             <back_right_joint>rear_right_wheel_joint</back_right_joint>
 
+            <publish_odom_tf>true</publish_odom_tf>
+            
+            <wheelbase>${2*s2}</wheelbase>
+            <wheel_separation>${2*s4}</wheel_separation>
+            <wheel_radius>${r}</wheel_radius>
 
-            <wheelbase>0.3</wheelbase>
-            <wheel_separation>0.3</wheel_separation>
-            <wheel_radius>0.1</wheel_radius>
+            <max_linear_acceleration>10</max_linear_acceleration>
+            <max_angular_acceleration>5</max_angular_acceleration>
 
-            <min_acceleration>-5</min_acceleration>
-            <max_acceleration>5</max_acceleration>
-
-            <topic>cmd_vel</topic> <!-- suspicious line you might have to add a / -->
+            <topic>/cmd_vel</topic>
             <tf_topic>/tf</tf_topic>
             <odom_topic>/odom</odom_topic>
             <frame_id>odom</frame_id>
 
             <child_frame_id>base_footprint</child_frame_id>
-            <odom_publish_frequency>30</odom_publish_frequency>
+            <odom_publisher_frequency>30</odom_publisher_frequency>
 
         </plugin>
 
@@ -47,12 +56,14 @@
 
         </plugin>
 
+
         <!-- lidar sensor -->
         <plugin filename = "gz-sim-sensors-system" name = "gz::sim::systems::Sensors">
             <render_engine>ogre2</render_engine>
         </plugin>
 
     </gazebo>
+
 
     <!-- lidar sensor reference -->
     <gazebo reference = "lidar_link">

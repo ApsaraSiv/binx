@@ -17,7 +17,6 @@ install(PROGRAMS
 
 # install folders
 install(DIRECTORY
-  config
   description
   launch
   parameters
