@@ -1,6 +1,8 @@
-<?xml version='1.0'?>
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
 
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro" xmlns:gz="http://gazebosim.org/schema">
+
+    <!-- *remember to cite and ref aleksander haber btw* -->
 
     <!-- colors -->
     <material name="white">
@@ -23,6 +25,12 @@
         <color rgba = "0.05 0.05 0.05 1"/>
     </material>
 
+
+
+
+
+
+
     <!-- ######################## -->
     <!-- Defining robot constants -->
     <!-- ######################## -->
@@ -30,12 +38,12 @@
     <xacro:property name = "pi_const" value = "3.14159265" />
 
     <!-- modifier -->
-    <xacro:property name = "m" value = "2.0" />
+    <xacro:property name = "m" value = "1" />
 
     <!-- chassis dimensions -->
-    <xacro:property name = "l" value = "${m*0.5}" />
-    <xacro:property name = "h" value = "${m*0.15}" />
-    <xacro:property name = "w" value = "${m*0.35}" />
+    <xacro:property name = "l" value = "${m*1}" />
+    <xacro:property name = "h" value = "${m*0.3}" />
+    <xacro:property name = "w" value = "${m*0.75}" />
 
     <!-- wheel radius and diameter -->
     <xacro:property name = "r" value = "${m*0.15}" />
@@ -46,291 +54,254 @@
     <xacro:property name = "s2" value = "${2*r}" />
     <xacro:property name = "s3" value = "${2*r}" />
     <xacro:property name = "s4" value = "${w/2 + d/2}" />
-    <xacro:property name = "s5" value = "${0.002*d}"/>
+
+
+    <!-- ##################################### -->
+    <!-- Defining mass and inertial properites -->
+    <!-- ##################################### -->
+
+
+    <!-- material densities -->
+    <xacro:property name = "bodyDensity" value = "2710.0" />
+    <xacro:property name = "wheelDensity" value = "2710.0" />
+
+    <!-- mass -->
+    <xacro:property name = "bodyMass" value = "${bodyDensity*l*h*w}" />
+    <xacro:property name = "wheelMass" value = "${wheelDensity*pi_const*r*r*d}" />
+
+
+    <!-- moments of inertia -->
+
+    <xacro:property name = "Ix_body" value = "${(1/12)*bodyMass*(h*h + w*w)}" />
+    <xacro:property name = "Iy_body" value = "${(1/12)*bodyMass*(l*l + h*h)}" />
+    <xacro:property name = "Iz_body" value = "${(1/12)*bodyMass*(l*l + w*w)}" />
+
+    <xacro:property name = "Iz_wheel" value = "${0.5*wheelMass*r*r}" />
+    <xacro:property name = "I_wheel" value = "${(1.0/12.0)*wheelMass*(3.0*r*r + d*d)}" />
+
+
+    <!-- inertial macros -->
+
+    <xacro:macro name = "inertia_body">
+        <inertial>
+            <origin rpy = "0 0 0" xyz = "0 0 ${s1}" />
+            <mass value = "${bodyMass}" />
+            <inertia ixx = "${Ix_body}" ixy = "0.0" ixz = "0.0" iyy = "${Iy_body}" iyz = "0" izz = "${Iz_body}" />
+        </inertial>
+    </xacro:macro>
+
+    <xacro:macro name = "inertia_wheel">
+        <inertial>
+            <origin rpy = "1.570795 0 0" xyz = "0 0 0" />
+            <mass value = "${wheelMass}" />
+            <inertia ixx = "${I_wheel}" ixy = "0.0" ixz = "0.0" iyy = "${I_wheel}" iyz = "0" izz = "${Iz_wheel}" />
+        </inertial>
+    </xacro:macro>
 
 
 
-<!-- _______________________________________________________________________________________________ -->
-<!-- _______________________________________________________________________________________________ -->
+    <!-- ########################## -->
+    <!-- Including additional files -->
+    <!-- ########################## -->
 
-  <!-- STEP 5 - Gazebo plugin -->
-  <xacro:include filename = "$(find pkg_binx)/description/robot.gazebo" />
-
-  <!-- STEP 1 - Robot footprint -->
-  <link name="base_footprint"></link>
-
-  <!-- STEP 2 - Robot chassis = base_link -->
-  <joint name="base_footprint_joint" type="fixed">
-    <origin xyz="0 0 0" rpy="0 0 0" />
-    <parent link="base_footprint"/>
-    <child link="base_link" />
-  </joint>
-
-  <link name='base_link'>
-    <pose>0 0 0.1 0 0 0</pose>
-
-    <inertial>
-      <mass value="15.0"/>
-      <origin xyz="0.0 0 0" rpy=" 0 0 0"/>
-      <inertia
-          ixx="0.0625" ixy="0" ixz="0"
-          iyy="0.2125" iyz="0"
-          izz="0.25"
-      />
-    </inertial>
-
-    <collision>
-      <origin xyz="0 0 ${h/2 + d/2}" rpy=" 0 0 0"/> 
-      <geometry>
-        <box size="${l} ${w} ${h}"/>
-      </geometry>
-    </collision>
-
-    <visual name='base_link_visual'>
-      <origin xyz="0 0 ${h/2 + d/2}" rpy=" 0 0 0"/>
-      <geometry>
-        <box size="${l} ${w} ${h}"/>
-      </geometry>
-      <material name="blue"/>
-    </visual>
-
-  </link>
-
-<!-- _______________________________________________________________________________________________ -->
+    <xacro:include filename = "$(find pkg_binx)/description/robot.gazebo" />
 
 
+    <!-- ####################### -->
+    <!-- Defining links & joints -->
+    <!-- ####################### -->
+
+    <!-- fictitious link -->
+    <link name = "base_footprint"> 
+    </link>
+    <joint name = "body_link_joint" type = "fixed">
+        <parent link = "base_footprint" />
+        <child link = "body_link" />
+    </joint>
+
+    <!-- body link -->
+    <!-- *figure out if you need to change the origin's x value to -0.1 or sum* -->
+    <link name = "body_link">
+        <visual>
+            <origin rpy = "0 0 0" xyz = "0 0 ${s1}" />
+            <geometry>
+                <box size = "${l} ${w} ${h}" />
+            </geometry>
+            <material name = "blue" />
+        </visual>
+
+        <collision>
+            <origin rpy = "0 0 0" xyz = "0 0 ${s1}" />
+            <geometry>
+                <box size = "${l} ${w} ${h}" />
+            </geometry>
+        </collision>
+
+        <xacro:inertia_body />
+    </link>
 
 
+    <!-- right wheel rear link -->
+    <!-- remember to make the limit effort more realistic later... -->
+    <joint name= "wheel1_joint" type = "continuous">
+        <parent link = "body_link" />
+        <child link = "wheel1_link" />
+        <origin xyz = "${-s2} ${-s4} ${r}" rpy = "0 0 0" />
+        <axis xyz = "0 1 0" />
+        <limit effort = "50000" velocity = "10" />
+        <dynamics damping = "1.0" friction = "1.0" />
+    </joint>
+
+    <link name = "wheel1_link">
+        <visual>
+            <origin rpy = "1.570795 0 0" xyz = "0 0 0" />
+            <geometry>
+                <cylinder length = "${d}" radius = "${r}" />
+            </geometry>
+            <material name = "pink" />
+        </visual>
+
+        <collision name = "wheel1_collision">
+            <origin rpy = "1.57095 0 0" xyz = "0 0 0" />
+            <geometry>
+                <cylinder length = "${d}" radius = "${r}" />
+            </geometry>
+            <surface>
+                <friction>
+                    <ode>
+                        <mu>2.0</mu>
+                        <mu2>0.01</mu2>
+                        <fdir1>-1 -1 0</fdir1>
+                    </ode>
+                </friction> 
+            </surface> 
+        </collision>
+
+        <xacro:inertia_wheel />
+    </link>
 
 
-<!-- _______________________________________________________________________________________________ -->
+    <!-- left wheel rear link -->
+    <!-- remember to make the limit effort more realistic later... -->
+    <joint name= "wheel2_joint" type = "continuous">
+        <parent link = "body_link" />
+        <child link = "wheel2_link" />
+        <origin xyz = "${-s2} ${s4} ${r}" rpy = "0 0 0" />
+        <axis xyz = "0 1 0" />
+        <limit effort = "50000" velocity = "10" />
+        <dynamics damping = "1.0" friction = "1.0" />
+    </joint>
+
+    <link name = "wheel2_link">
+        <visual>
+            <origin rpy = "1.570795 0 0" xyz = "0 0 0" />
+            <geometry>
+                <cylinder length = "${d}" radius = "${r}" />
+            </geometry>
+            <material name = "pink" />
+        </visual>
+
+        <collision name = "wheel2_collision">
+            <origin rpy = "1.57095 0 0" xyz = "0 0 0" />
+            <geometry>
+                <cylinder length = "${d}" radius = "${r}" />
+            </geometry>
+            <surface>
+                <friction>
+                    <ode>
+                        <mu>2.0</mu>
+                        <mu2>0.01</mu2>
+                        <fdir1>-1 1 0</fdir1>
+                    </ode>
+                </friction> 
+            </surface> 
+        </collision>
+
+        <xacro:inertia_wheel />
+    </link>
 
 
-  <!-- STEP 3 - Wheels -->
-  <joint type="continuous" name="front_left_wheel_joint">
-    <origin xyz="${r} ${s4} ${r/2}" rpy="-1.5707 0 0"/>
-    <child link="front_left_wheel"/>
-    <parent link="base_link"/>
-    <axis xyz="0 0 1" rpy="0 0 0"/>
-    <limit effort="10000" velocity="10"/>
-    <dynamics damping="1.0" friction="1.0"/>
-  </joint>
+    <!-- right wheel forward link -->
+    <!-- remember to make the limit effort more realistic later... -->
+    <joint name= "wheel3_joint" type = "continuous">
+        <parent link = "body_link" />
+        <child link = "wheel3_link" />
+        <origin xyz = "${s2} ${-s4} ${r}" rpy = "0 0 0" />
+        <axis xyz = "0 1 0" />
+        <limit effort = "50000" velocity = "10" />
+        <dynamics damping = "1.0" friction = "1.0" />
+    </joint>
 
-  <link name='front_left_wheel'>
-    <inertial>
-      <mass value="2.0"/>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <inertia
-          ixx="0.145833" ixy="0" ixz="0"
-          iyy="0.145833" iyz="0"
-          izz="0.125"
-      />
-    </inertial>
+    <link name = "wheel3_link">
+        <visual>
+            <origin rpy = "1.570795 0 0" xyz = "0 0 0" />
+            <geometry>
+                <cylinder length = "${d}" radius = "${r}" />
+            </geometry>
+            <material name = "pink" />
+        </visual>
 
-    <collision>
-      <geometry>
-        <sphere radius="${d}"/>
-      </geometry>
-    </collision>
+        <collision name = "wheel3_collision">
+            <origin rpy = "1.57095 0 0" xyz = "0 0 0" />
+            <geometry>
+                <cylinder length = "${d}" radius = "${r}" />
+            </geometry>
+            <surface>
+                <friction>
+                    <ode>
+                        <mu>2.0</mu>
+                        <mu2>0.01</mu2>
+                        <fdir1>1 -1 0</fdir1>
+                    </ode>
+                </friction> 
+            </surface>
+        </collision>
 
-    <visual name='front_left_wheel_visual'>
-      <origin xyz="0 0 0" rpy="1.5707 0 0"/>
-      <geometry>
-<!--         <sphere radius="${d}"/> -->
-        <mesh filename="$(find pkg_binx)/models/mecanum_wheels/mecanum_wheel_left.STL" scale="0.0035 .0035 0.0035"/>
-      </geometry>
-      <material name="pink"/>
-    </visual>
-  </link>
-
-
-<!-- _______________________________________________________________________________________________ -->
-
-
-  <joint type="continuous" name="rear_left_wheel_joint">
-    <origin xyz="${-r} ${s4} ${r/2}" rpy="-1.5707 0 0"/>
-    <child link="rear_left_wheel"/>
-    <parent link="base_link"/>
-    <axis xyz="0 0 1" rpy="0 0 0"/>
-    <limit effort="10000" velocity="10"/>
-    <dynamics damping="1.0" friction="1.0"/>
-  </joint>
-
-  <link name='rear_left_wheel'>
-    <inertial>
-      <mass value="2.0"/>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <inertia
-          ixx="0.145833" ixy="0" ixz="0"
-          iyy="0.145833" iyz="0"
-          izz="0.125"
-      />
-    </inertial>
-
-    <collision>
-      <geometry>
-        <sphere radius="${d}"/>
-      </geometry>
-    </collision>
-
-    <visual name='rear_left_wheel_visual'>
-      <origin xyz="0 0 0" rpy="1.5707 0 0"/>
-      <geometry>
-<!--         <sphere radius="${d}"/> -->
-        <mesh filename="$(find pkg_binx)/models/mecanum_wheels/mecanum_wheel_right.STL" scale="0.0035 .0035 0.0035"/>
-      </geometry>
-      <material name="pink"/>
-    </visual>
-  </link>
-
-<!-- _______________________________________________________________________________________________ -->
+        <xacro:inertia_wheel />
+    </link>
 
 
-  <joint type="continuous" name="front_right_wheel_joint">
-    <origin xyz="${r} ${-s4} ${r/2}" rpy="-1.5707 0 0"/>
-    <child link="front_right_wheel"/>
-    <parent link="base_link"/>
-    <axis xyz="0 0 1" rpy="0 0 0"/>
-    <limit effort="10000" velocity="10"/>
-    <dynamics damping="1.0" friction="1.0"/>
-  </joint>
+    <!-- left wheel forward link -->
+    <!-- remember to make the limit effort more realistic later... -->
+    <joint name= "wheel4_joint" type = "continuous">
+        <parent link = "body_link" />
+        <child link = "wheel4_link" />
+        <origin xyz = "${s2} ${s4} ${r}" rpy = "0 0 0" />
+        <axis xyz = "0 1 0" />
+        <limit effort = "50000" velocity = "10" />
+        <dynamics damping = "1.0" friction = "1.0" />
+    </joint>
 
-  <link name='front_right_wheel'>
-    <inertial>
-      <mass value="2.0"/>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <inertia
-          ixx="0.145833" ixy="0" ixz="0"
-          iyy="0.145833" iyz="0"
-          izz="0.125"
-      />
-    </inertial>
+    <link name = "wheel4_link">
+        <visual>
+            <origin rpy = "1.570795 0 0" xyz = "0 0 0" />
+            <geometry>
+                <cylinder length = "${d}" radius = "${r}" />
+            </geometry>
+            <material name = "pink" />
+        </visual>
 
-    <collision>
-      <geometry>
-        <sphere radius="${d}"/>
-      </geometry>
-    </collision>
+        <collision name = "wheel4_collision">
+            <origin rpy = "1.57095 0 0" xyz = "0 0 0" />
+            <geometry>
+                <cylinder length = "${d}" radius = "${r}" />
+            </geometry>
+            <surface>
+                <friction>
+                    <ode>
+                        <mu>2.0</mu>
+                        <mu2>0.01</mu2>
+                        <fdir1>1 1 0</fdir1>
+                    </ode>
+                </friction> 
+            </surface> 
+        </collision>
 
-    <visual name='front_right_wheel_visual'>
-      <origin xyz="0 0 0" rpy="1.5707 0 0"/>
-      <geometry>
-<!--         <sphere radius="${d}"/> -->
-        <mesh filename="$(find pkg_binx)/models/mecanum_wheels/mecanum_wheel_right.STL" scale="0.0035 .0035 0.0035"/>
-      </geometry>
-      <material name="pink"/>
-    </visual>
-  </link>
-
-<!-- _______________________________________________________________________________________________ -->
-
-
-  <joint type="continuous" name="rear_right_wheel_joint">
-    <origin xyz="${-r} ${-s4} ${r/2}" rpy="-1.5707 0 0"/>
-    <child link="rear_right_wheel"/>
-    <parent link="base_link"/>
-    <axis xyz="0 0 1" rpy="0 0 0"/>
-    <limit effort="10000" velocity="10"/>
-    <dynamics damping="1.0" friction="1.0"/>
-  </joint>
-
-  <link name='rear_right_wheel'>
-    <inertial>
-      <mass value="2.0"/>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <inertia
-          ixx="0.145833" ixy="0" ixz="0"
-          iyy="0.145833" iyz="0"
-          izz="0.125"
-      />
-    </inertial>
-
-    <collision>
-      <geometry>
-        <sphere radius="${d}"/>
-      </geometry>
-    </collision>
-
-    <visual name='rear_right_wheel_visual'>
-      <origin xyz="0 0 0" rpy="1.5707 0 0"/>
-      <geometry>
-       <!--  <sphere radius="${d}"/> -->
-        <mesh filename="$(find pkg_binx)/models/mecanum_wheels/mecanum_wheel_left.STL" scale="0.0035 .0035 0.0035"/>
-      </geometry>
-      <material name="pink"/>
-    </visual>
-  </link>
-
-
-<!-- _______________________________________________________________________________________________ -->
-<!-- _______________________________________________________________________________________________ -->
+        <xacro:inertia_wheel />
+    </link>
 
 
 
 
-
-
-  <!-- STEP 6 - Gazebo frictions and colors -->
-  <gazebo reference='front_left_wheel'>
-    <collision>
-      <surface>
-        <friction>
-          <ode>
-            <mu>1.5</mu>
-            <mu2>0.0</mu2>
-            <fdir1 gz:expressed_in="base_footprint">1 -1 0</fdir1>
-          </ode>
-        </friction>
-      </surface>
-    </collision>
-  </gazebo>
-
-  <gazebo reference='rear_left_wheel'>
-    <collision>
-      <surface>
-        <friction>
-          <ode>
-            <mu>1.5</mu>
-            <mu2>0.0</mu2>
-            <fdir1 gz:expressed_in="base_footprint">1 1 0</fdir1>
-          </ode>
-        </friction>
-      </surface>
-    </collision>
-  </gazebo>
-
-  <gazebo reference='front_right_wheel'>
-    <collision>
-      <surface>
-        <friction>
-          <ode>
-            <mu>1.5</mu>
-            <mu2>0.0</mu2>
-            <fdir1 gz:expressed_in="base_footprint">1 1 0</fdir1>
-          </ode>
-        </friction>
-      </surface>
-    </collision>
-  </gazebo>
-
-  <gazebo reference='rear_right_wheel'>
-    <collision>
-      <surface>
-        <friction>
-          <ode>
-            <mu>1.5</mu>
-            <mu2>0.0</mu2>
-            <fdir1 gz:expressed_in="base_footprint">1 -1 0</fdir1>
-          </ode>
-        </friction>
-      </surface>
-    </collision>
-  </gazebo>
-
-  <gazebo reference="base_link">
-    <mu1>0.000002</mu1>
-    <mu2>0.000002</mu2>
-    <!-- <material>Gazebo/Red</material> -->
-  </gazebo>
 
 </robot>
