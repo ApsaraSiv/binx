@@ -145,7 +145,7 @@ def generate_launch_description():
 
     #mission
     spawn_trash = TimerAction(
-        period=8.0,
+        period=8.0, # only after 8s, to give binx time to spawn and start up
         actions=[ExecuteProcess(
             cmd=['python3', os.path.join(get_package_share_directory(namePackage), 'scripts', 'spawn_trash.py')],
             output='screen'
@@ -153,7 +153,7 @@ def generate_launch_description():
     )
 
     lifecycle_manager_delayed = TimerAction(
-        period=10.0,
+        period=10.0, #after 10s, to give binx time and for slam toolbox to start up (since nav2 depends on it)
         actions=[lifecycle_manager]
     )
 

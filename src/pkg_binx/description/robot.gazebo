@@ -5,8 +5,6 @@
 <!-- Additional file -->
 <!-- ############### -->
 
-<!-- *btw the lidar doesn't work yet* -->
-
     <!-- friction parameters -->
 
     <!-- Gazebo-ros plugins -->

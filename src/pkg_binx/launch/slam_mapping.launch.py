@@ -1,3 +1,5 @@
+# file was made specifically for mapping, if a new env is made run mapping by launching this file.
+
 import os
 import xacro
 from ament_index_python.packages import get_package_share_directory
@@ -28,8 +30,7 @@ def generate_launch_description():
         }.items()
     )
 
-    return LaunchDescription([
-        SetEnvironmentVariable(
+    return LaunchDescription([SetEnvironmentVariable(
             name='GZ_SIM_RESOURCE_PATH',
             value=modelsPath + ':' + os.environ.get('GZ_SIM_RESOURCE_PATH', '')
         ),
