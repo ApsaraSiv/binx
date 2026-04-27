@@ -62,7 +62,7 @@ source install/setup.bash
 
 ## Running the trash collection demo
 
-**Terminal 1 — launch the simulation:**
+**Terminal 1: launch the simulation:**
 
 ```bash
 source install/setup.bash
@@ -71,7 +71,7 @@ ros2 launch pkg_binx gz_sim.launch.py
 
 Wait ~15 seconds for Gazebo to load and Nav2 to fully activate.
 
-**Terminal 2 — run the collector:**
+**Terminal 2: run the collector:**
 
 ```bash
 source install/setup.bash
