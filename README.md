@@ -1,6 +1,6 @@
-# binx
+# BIN-X (binx)
 
-A simulated mecanum-wheel robot that autonomously collects color-coded trash and deposits it in the correct bin. Built with ROS2 Jazzy and Gazebo Harmonic.
+Simulation of a mecanum wheeled robot that autonomously collects color coded trash and deposits it in the respective bin. Built with ROS2 Jazzy and Gazebo Harmonic.
 
 ## Demo
 
@@ -27,7 +27,7 @@ The world has three zones: a scatter of obstacles near the start, a three-wall z
 
 - ROS2 Jazzy
 - Gazebo Harmonic
-- Python 3
+- Python3
 
 ROS2 packages:
 
