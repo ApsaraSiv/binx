@@ -85,8 +85,8 @@ The robot will navigate autonomously from start to finish. Mission complete is l
 | Delay | What starts |
 |---|---|
 | Immediately | Gazebo, robot, EKF, ROS-Gazebo bridges |
-| 8 s | `spawn_trash.py` — drops a random colored box at `(2.0, 0.0)` |
-| 10 s | Nav2 lifecycle manager — activates map server, AMCL, planner, controller, BT navigator |
+| 8 s | `spawn_trash.py` drops a random colored box at `(2.0, 0.0)` |
+| 10 s | Nav2 lifecycle manager activates map server, AMCL, planner, controller, BT navigator |
 
 AMCL is configured with `set_initial_pose: true` at `(0, 0, 0)`, so no manual pose estimate is needed in RViz.
 
@@ -166,6 +166,5 @@ src/pkg_binx/
 
 ## Known issues
 
-- The installed `config/` YAML files are copies, not symlinks. Edit → rebuild to apply changes.
+- The installed `config/` YAML files are copies, not symlinks. Edit rebuild to apply changes.
 - The LiDAR visual mesh has no inertial properties (it is fixed to the chassis and does not need them, but URDF validators may warn).
-- `detectLine.py`, `controller.py`, and `publishVelocity.py` are unimplemented stubs from an earlier design — their logic lives in `lineFollower.py`.
