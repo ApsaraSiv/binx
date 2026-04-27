@@ -2,8 +2,6 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
 
 
-    <!-- *remember to cite and ref aleksander haber btw* -->
-
     <!-- colors -->
     <material name="white">
         <color rgba="1 1 1 1" />
@@ -24,11 +22,6 @@
     <material name = "gray">
         <color rgba = "0.05 0.05 0.05 1"/>
     </material>
-
-
-
-
-
 
 
     <!-- ######################## -->
@@ -114,14 +107,14 @@
     <!-- fictitious link -->
     <link name = "base_footprint"> 
     </link>
-    <joint name = "body_link_joint" type = "fixed">
+    <joint name = "base_link_joint" type = "fixed">
         <parent link = "base_footprint" />
-        <child link = "body_link" />
+        <child link = "base_link" />
     </joint>
 
     <!-- body link -->
     <!-- *figure out if you need to change the origin's x value to -0.1 or sum* -->
-    <link name = "body_link">
+    <link name = "base_link">
         <visual>
             <origin rpy = "0 0 0" xyz = "0 0 ${s1}" />
             <geometry>
@@ -144,12 +137,12 @@
     <!-- right wheel rear link -->
     <!-- remember to make the limit effort more realistic later... -->
     <joint name= "wheel1_joint" type = "continuous">
-        <parent link = "body_link" />
+        <parent link = "base_link" />
         <child link = "wheel1_link" />
         <origin xyz = "${-s2} ${-s4} ${r}" rpy = "0 0 0" />
         <axis xyz = "0 1 0" />
         <limit effort = "50000" velocity = "10" />
-        <dynamics damping = "1.0" friction = "1.0" />
+        <dynamics damping = "0.05" friction = "0.0" />
     </joint>
 
     <link name = "wheel1_link">
@@ -170,11 +163,19 @@
                 <friction>
                     <ode>
                         <mu>2.0</mu>
-                        <mu2>0.01</mu2>
+                        <mu2>0.5</mu2>
                         <fdir1>-1 -1 0</fdir1>
                     </ode>
-                </friction> 
-            </surface> 
+                </friction>
+                <contact>
+                    <ode>
+                        <kp>1000000.0</kp>
+                        <kd>100.0</kd>
+                        <min_depth>0.001</min_depth>
+                        <max_vel>0.1</max_vel>
+                    </ode>
+                </contact>
+            </surface>
         </collision>
 
         <xacro:inertia_wheel />
@@ -184,12 +185,12 @@
     <!-- left wheel rear link -->
     <!-- remember to make the limit effort more realistic later... -->
     <joint name= "wheel2_joint" type = "continuous">
-        <parent link = "body_link" />
+        <parent link = "base_link" />
         <child link = "wheel2_link" />
         <origin xyz = "${-s2} ${s4} ${r}" rpy = "0 0 0" />
         <axis xyz = "0 1 0" />
         <limit effort = "50000" velocity = "10" />
-        <dynamics damping = "1.0" friction = "1.0" />
+        <dynamics damping = "0.05" friction = "0.0" />
     </joint>
 
     <link name = "wheel2_link">
@@ -210,11 +211,19 @@
                 <friction>
                     <ode>
                         <mu>2.0</mu>
-                        <mu2>0.01</mu2>
+                        <mu2>0.5</mu2>
                         <fdir1>-1 1 0</fdir1>
                     </ode>
-                </friction> 
-            </surface> 
+                </friction>
+                <contact>
+                    <ode>
+                        <kp>1000000.0</kp>
+                        <kd>100.0</kd>
+                        <min_depth>0.001</min_depth>
+                        <max_vel>0.1</max_vel>
+                    </ode>
+                </contact>
+            </surface>
         </collision>
 
         <xacro:inertia_wheel />
@@ -222,14 +231,13 @@
 
 
     <!-- right wheel forward link -->
-    <!-- remember to make the limit effort more realistic later... -->
     <joint name= "wheel3_joint" type = "continuous">
-        <parent link = "body_link" />
+        <parent link = "base_link" />
         <child link = "wheel3_link" />
         <origin xyz = "${s2} ${-s4} ${r}" rpy = "0 0 0" />
         <axis xyz = "0 1 0" />
         <limit effort = "50000" velocity = "10" />
-        <dynamics damping = "1.0" friction = "1.0" />
+        <dynamics damping = "0.05" friction = "0.0" />
     </joint>
 
     <link name = "wheel3_link">
@@ -250,10 +258,18 @@
                 <friction>
                     <ode>
                         <mu>2.0</mu>
-                        <mu2>0.01</mu2>
+                        <mu2>0.5</mu2>
                         <fdir1>1 -1 0</fdir1>
                     </ode>
-                </friction> 
+                </friction>
+                <contact>
+                    <ode>
+                        <kp>1000000.0</kp>
+                        <kd>100.0</kd>
+                        <min_depth>0.001</min_depth>
+                        <max_vel>0.1</max_vel>
+                    </ode>
+                </contact>
             </surface>
         </collision>
 
@@ -262,14 +278,13 @@
 
 
     <!-- left wheel forward link -->
-    <!-- remember to make the limit effort more realistic later... -->
     <joint name= "wheel4_joint" type = "continuous">
-        <parent link = "body_link" />
+        <parent link = "base_link" />
         <child link = "wheel4_link" />
         <origin xyz = "${s2} ${s4} ${r}" rpy = "0 0 0" />
         <axis xyz = "0 1 0" />
         <limit effort = "50000" velocity = "10" />
-        <dynamics damping = "1.0" friction = "1.0" />
+        <dynamics damping = "0.05" friction = "0.0" />
     </joint>
 
     <link name = "wheel4_link">
@@ -290,18 +305,22 @@
                 <friction>
                     <ode>
                         <mu>2.0</mu>
-                        <mu2>0.01</mu2>
+                        <mu2>0.5</mu2>
                         <fdir1>1 1 0</fdir1>
                     </ode>
-                </friction> 
-            </surface> 
+                </friction>
+                <contact>
+                    <ode>
+                        <kp>1000000.0</kp>
+                        <kd>100.0</kd>
+                        <min_depth>0.001</min_depth>
+                        <max_vel>0.1</max_vel>
+                    </ode>
+                </contact>
+            </surface>
         </collision>
 
         <xacro:inertia_wheel />
     </link>
-
-
-
-
 
 </robot>

@@ -7,13 +7,7 @@
 
 <!-- *btw the lidar doesn't work yet* -->
 
-
     <!-- friction parameters -->
-
-
-
-
-
 
     <!-- Gazebo-ros plugins -->
 
@@ -21,21 +15,21 @@
 
         <plugin filename = "gz-sim-mecanum-drive-system" name = "gz::sim::systems::MecanumDrive">
 
-            <update_rate>20</update_rate>
+            <update_rate>50</update_rate>
 
-            <front_left_joint>front_left_wheel_joint</front_left_joint>
-            <front_right_joint>front_right_wheel_joint</front_right_joint>
-            <back_left_joint>rear_left_wheel_joint</back_left_joint>
-            <back_right_joint>rear_right_wheel_joint</back_right_joint>
+            <front_left_joint>wheel4_joint</front_left_joint>
+            <front_right_joint>wheel3_joint</front_right_joint>
+            <back_left_joint>wheel2_joint</back_left_joint>
+            <back_right_joint>wheel1_joint</back_right_joint>
 
-            <publish_odom_tf>true</publish_odom_tf>
-            
+            <publish_odom_tf>false</publish_odom_tf>
+
             <wheelbase>${2*s2}</wheelbase>
             <wheel_separation>${2*s4}</wheel_separation>
             <wheel_radius>${r}</wheel_radius>
 
-            <max_linear_acceleration>10</max_linear_acceleration>
-            <max_angular_acceleration>5</max_angular_acceleration>
+            <max_linear_acceleration>1.5</max_linear_acceleration>
+            <max_angular_acceleration>1.0</max_angular_acceleration>
 
             <topic>/cmd_vel</topic>
             <tf_topic>/tf</tf_topic>
@@ -43,19 +37,18 @@
             <frame_id>odom</frame_id>
 
             <child_frame_id>base_footprint</child_frame_id>
-            <odom_publisher_frequency>30</odom_publisher_frequency>
+            <odom_publisher_frequency>50</odom_publisher_frequency>
 
-        </plugin>
+        </plugin>   
 
         <plugin filename = "gz-sim-joint-state-publisher-system" name = "gz::sim::systems::JointStatePublisher">
             <topic>joint_states</topic>
-            <joint_name>front_left_wheel_joint</joint_name>
-            <joint_name>front_right_wheel_joint</joint_name>
-            <joint_name>rear_left_wheel_joint</joint_name>
-            <joint_name>rear_right_wheel_joint</joint_name>
+            <joint_name>wheel1_joint</joint_name>
+            <joint_name>wheel2_joint</joint_name>
+            <joint_name>wheel3_joint</joint_name>
+            <joint_name>wheel4_joint</joint_name>
 
         </plugin>
-
 
         <!-- lidar sensor -->
         <plugin filename = "gz-sim-sensors-system" name = "gz::sim::systems::Sensors">
@@ -104,7 +97,7 @@
         </sensor>   
     </gazebo>
 
-
+    <!-- camera sensor reference -->
     <gazebo reference="camera_link">
         <material name = "gray" />
 
@@ -129,6 +122,4 @@
         </sensor>
     </gazebo>
     
-
-
 </robot>
