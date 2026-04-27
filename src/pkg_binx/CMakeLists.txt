@@ -12,6 +12,8 @@ find_package(std_msgs REQUIRED)
 
 install(PROGRAMS
   scripts/lineFollower.py
+  scripts/trash_collector.py
+  scripts/spawn_trash.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
@@ -20,10 +22,11 @@ install(DIRECTORY
   description
   launch
   parameters
+  config
   world
-  cvTest
   scripts
   models
+  maps
   DESTINATION share/${PROJECT_NAME}
 )
 
